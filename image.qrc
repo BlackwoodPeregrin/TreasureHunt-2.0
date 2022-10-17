@@ -1,0 +1,15 @@
+<RCC>
+    <qresource prefix="/">
+        <file>img/ruby.png</file>
+        <file>img/emeralds.png</file>
+        <file>img/saphfire.png</file>
+        <file>img/box.png</file>
+        <file>img/deck.jpg</file>
+        <file>img/background.jpg</file>
+        <file>img/info.png</file>
+        <file>img/pause.png</file>
+        <file>img/play.png</file>
+        <file>img/undo.png</file>
+        <file>img/background_playing_field.jpg</file>
+    </qresource>
+</RCC>

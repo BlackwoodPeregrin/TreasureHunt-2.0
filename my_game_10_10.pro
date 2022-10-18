@@ -13,6 +13,7 @@ SOURCES += \
     view_game.cpp
 
 HEADERS += \
+    constans.h \
     controller_game.hpp \
     model_game.hpp \
     style_helper.h \

@@ -3,7 +3,8 @@
 
 #include "model_game.hpp"
 
-namespace InSearchOfTreasure {
+namespace InSearchOfTreasure_2_0 {
+
 // контроллер реализован в паттерне Singletone
 class ControllerGame {
  private:
@@ -23,115 +24,176 @@ class ControllerGame {
   }
   //
 
-  auto GenerateField() -> void {
+  auto GenerateField_model(uint8_t level_game) -> void {
     // генерация игрового поля
-    m_model.GenerateField();
+    int size_filed = GetSizeFiledFromLevelGame(level_game);
+    m_model.GenerateField(size_filed);
   }
 
-  auto ClearField() -> void {
+  auto ClearField_model() -> void {
     // очистка игрового поля
     m_model.ClearField();
   }
 
-  auto IsSelectedBlockCell(int id_button) const -> bool {
-    // конвертирую кнопку с интерфейса в координаты игрового поля
-    int row = id_button / 5;
-    int column = id_button % 5;
-    try {
-      return m_model.IsSelectedBlockCell(row, column);
-    } catch (std::exception const &e) {
+  auto IsSelectedBlockCell_model(int id_button) const -> bool {
+      if (m_model.IsGenerateField()) {
+          // конвертирую кнопку с интерфейса в координаты игрового поля
+          int size_filed = m_model.GetSizeField();
+          int row = id_button / size_filed;
+          int column = id_button % size_filed;
+          return m_model.IsSelectedBlockCell(row, column);
+      }
       return false;  // игровое поле не инициализированно
-    }
   }
 
-  auto IsSelectedFreeCell(int id_button) const -> bool {
-    // конвертирую кнопку с интерфейса в координаты игрового поля
-    int row = id_button / 5;
-    int column = id_button % 5;
-    try {
-      return m_model.IsSelectedFreeCell(row, column);
-    } catch (std::exception const &e) {
+  auto IsSelectedFreeCell_model(int id_button) const -> bool {
+      if (m_model.IsGenerateField()) {
+        // конвертирую кнопку с интерфейса в координаты игрового поля
+        int size_filed = m_model.GetSizeField();
+        int row = id_button / size_filed;
+        int column = id_button % size_filed;
+        return m_model.IsSelectedFreeCell(row, column);
+      }
       return false;  // игровое поле не инициализированно
-    }
   }
 
-  auto IsSelectedChipCell(int id_button) const -> bool {
-    // конвертирую кнопку с интерфейса в координаты игрового поля
-    int row = id_button / 5;
-    int column = id_button % 5;
-    try {
-      return m_model.IsSelectedChipCell(row, column);
-    } catch (std::exception const &e) {
+  auto IsSelectedChipCell_model(int id_button) const -> bool {
+      if (m_model.IsGenerateField()) {
+        // конвертирую кнопку с интерфейса в координаты игрового поля
+        int size_filed = m_model.GetSizeField();
+        int row = id_button / size_filed;
+        int column = id_button % size_filed;
+        return m_model.IsSelectedChipCell(row, column);
+      }
       return false;  // игровое поле не инициализированно
+  }
+
+  auto GetColorCell_model(int id_button) const -> int {
+    if (m_model.IsGenerateField()) {
+      // конвертирую кнопку с интерфейса в координаты игрового поля
+      int size_filed = m_model.GetSizeField();
+      int row = id_button / size_filed;
+      int column = id_button % size_filed;
+      return m_model.GetColorCell(row, column);;
     }
+    return -1;  // игровое поле не инициализированно
   }
 
-  auto GetColorCell(int id_button) const -> int {
+
+  auto ChangePossibleStepsChipInPlayingField_model(int id_button) -> void {
     // конвертирую кнопку с интерфейса в координаты игрового поля
-    int row = id_button / 5;
-    int column = id_button % 5;
-    try {
-      return m_model.GetColorCell(row, column);
-    } catch (std::exception const &e) {
-      return -1;  // игровое поле не инициализированно
-    }
-  }
-
-  auto GetPosRedChipInExpectedRow() const -> int {
-    return m_model.GetPosRedChipInExpectedRow();
-  }
-
-  auto GetPosGreenChipInExpectedRow() const -> int {
-    return m_model.GetPosGreenChipInExpectedRow();
-  }
-
-  auto GetPosBlueChipInExpectedRow() const -> int {
-    return m_model.GetPosBlueChipInExpectedRow();
-  }
-
-  auto ChangePossibleStepsChipInPlayingField_(int id_button) -> void {
-    // конвертирую кнопку с интерфейса в координаты игрового поля
-    int row = id_button / 5;
-    int column = id_button % 5;
+    int size_filed = m_model.GetSizeField();
+    int row = id_button / size_filed;
+    int column = id_button % size_filed;
     m_model.ChangePossibleStepsChipInPlayingField(row, column);
   }
 
-  auto IsCellPossibleStep(int id_button) const -> bool {
+  auto IsCellPossibleStep_model(int id_button) const -> bool {
     // конвертирую кнопку с интерфейса в координаты игрового поля
-    int row = id_button / 5;
-    int column = id_button % 5;
+    int size_filed = m_model.GetSizeField();
+    int row = id_button / size_filed;
+    int column = id_button % size_filed;
     return m_model.IsCellPossibleStep(row, column);
   }
 
-  auto GetCurrentCoord() const -> int {
-    // конвертирую координаты бэка в id кнопки на интерфейсе
-    std::pair<int, int> coord = m_model.GetCurrentCoord();
-    if (coord.first == -1 && coord.second == -1) {
-      // текущая ячейка не была выбрана
-      return -1;
-    }
-    int id_button = coord.first * 5 + coord.second;
-    return id_button;
+  auto GetCurrentCoord_model() const -> int {
+      if (m_model.IsGenerateField()) {
+        // конвертирую кнопку с интерфейса в координаты игрового поля
+        std::pair<int, int> coord = m_model.GetCurrentCoord();
+        int id_button = coord.first * m_model.GetSizeField() + coord.second;
+        return id_button;
+      }
+      return -1; // игровое поле не инициализированно
   }
 
-  auto SwapCells(int id_button) -> void {
-    // конвертирую кнопку с интерфейса в координаты игрового поля
-    int row = id_button / 5;
-    int column = id_button % 5;
-    m_model.SwapCells(row, column);
-  }
 
-  auto GetVectorPossibleSteps() const -> std::vector<int> {
-    std::vector<std::pair<int, int>> coords = m_model.GetVectorPossibleSteps();
+  auto GetVectorPossibleSteps_model() const -> std::vector<int> {
+    std::vector<std::pair<int, int>> coords(std::move(m_model.GetVectorPossibleSteps()));
+    int size_field = m_model.GetSizeField();
     // конвертирую координаты бэка в id кнопки на интерфейсе
     std::vector<int> id_buttons;
-    for (auto &coord : coords) {
-      id_buttons.push_back(coord.first * 5 + coord.second);
+    for (auto &[row, column] : coords) {
+      id_buttons.push_back(row * size_field + column);
     }
     return id_buttons;
   }
 
-  auto IsVictoryGame() const -> bool { return m_model.IsGameVictory(); }
+  auto IsVictoryGame_model() const -> bool {
+      if (m_model.IsGenerateField()) {
+        return m_model.IsGameVictory();
+      }
+      return false;
+  }
+
+  auto GetColorExpectedRow_model() const -> std::vector<int> {
+      std::map<int, int> colors = std::move(m_model.GetColorExpectedRow());
+      std::vector<int> result_colors;
+      for (auto &i : colors) {
+          result_colors.push_back(i.second);
+      }
+      return result_colors;
+  }
+
+  auto StepUp_model() -> bool {
+      if (m_model.IsGenerateField()) {
+        return m_model.StepUp();
+      }
+      return false;
+  }
+
+  auto StepRight_model() -> bool {
+      if (m_model.IsGenerateField()) {
+        return m_model.StepRight();
+      }
+      return false;
+  }
+
+  auto StepDown_model() -> bool {
+      if (m_model.IsGenerateField()) {
+        return m_model.StepDown();
+      }
+      return false;
+  }
+
+  auto StepLeft_model() -> bool {
+      if (m_model.IsGenerateField()) {
+        return m_model.StepLeft();
+      }
+      return false;
+  }
+
+
+  auto MoveChipUp_model() -> bool {
+      if (m_model.IsGenerateField()) {
+        return m_model.MoveChipUp();
+      }
+      return false;
+  }
+
+
+  auto MoveChipRight_model() -> bool {
+    if (m_model.IsGenerateField()) {
+      return m_model.MoveChipRight();
+    }
+    return false;
+
+  }
+
+  auto MoveChipDown_model() -> bool {
+      if (m_model.IsGenerateField()) {
+        return m_model.MoveChipDown();
+      }
+      return false;
+  }
+
+
+  auto MoveChipLeft_model() -> bool {
+      if (m_model.IsGenerateField()) {
+        return m_model.MoveChipLeft();
+      }
+      return false;
+  }
+
 
  private:
   GameMechanics m_model;

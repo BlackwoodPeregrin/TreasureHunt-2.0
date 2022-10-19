@@ -81,44 +81,7 @@ class StyleHelper {
            "};";
   }
 
-  static auto getReleasedButtonStyle() -> QString {
-    return "QPushButton {"
-           "   background: none;"
-           "   background-image: url(:/img/background_chips.jpg);"
-           "   border-radius: 12px;"
-           "}\n"
-           "QPushButton:hover {"
-           "   border-style: solid;"
-           "   border-width: 3px;"
-           "   border-color: black;"
-           "};";
-  }
-
-
-
-  static auto getPressedPossibleButtonStyle() -> QString {
-    return "QPushButton {"
-           "   background: none;"
-           "   background-image: url(:/img/background_chips.jpg);"
-           "   border-style: solid;"
-           "   border-width: 3px;"
-           "   border-color: rgb(0, 214, 120);"
-           "   border-radius: 12px;"
-           "};";
-  }
-
   //
-  static auto getPossibleStepsButtonStyle() -> QString {
-    return "QPushButton {"
-           "   background: none;"
-           "   background-image: url(:/img/background_chips.jpg);"
-           "   border-style: solid;"
-           "   border-width: 3px;"
-           "   border-color: #ffba00;"
-           "   border-radius: 12px;"
-           "};";
-  }
-
   static auto getButtonFocusStyle() -> QString {
     return "QPushButton {"
            "   background: none;"
@@ -149,16 +112,6 @@ class StyleHelper {
              "};";
   }
 
-  static auto getButtonFreePotencialCellStyle() -> QString {
-    return "QPushButton {"
-           "   background: none;"
-           "   background-image: url(:/img/background_chips.jpg);"
-           "   border-style: solid;"
-           "   border-width: 3px;"
-           "   border-color: rgb(0, 214, 120);"
-           "   border-radius: 12px;"
-           "};";
-  }
   //
 
   static auto getButtonStyleUnderGameField() -> QString {

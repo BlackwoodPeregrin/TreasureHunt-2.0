@@ -7,9 +7,11 @@
 #include <QCloseEvent>
 #include <QPixmap>
 #include <thread>
+#include <QTimer>
 
 #include "ui_playing_field.h"
 #include "controller_game.hpp"
+#include "victory_dialog.h"
 
 QT_BEGIN_NAMESPACE
 namespace InSearchOfTreasure_2_0 {
@@ -19,11 +21,26 @@ class ViewPlayingField : public QWidget
     Q_OBJECT
 public:
     explicit ViewPlayingField(uint8_t level_game, QWidget *parent = nullptr)
-        : QWidget(parent), ui(new Ui_PlayingField) {
+        : QWidget{parent},
+          m_click_counter{0},
+          m_current_id_button{0},
+          m_cell_in_focus{false},
+          ui{new Ui_PlayingField},
+          m_dialog{nullptr},
+          m_close_game{false}{
+        //
         ui->setupUi(this, level_game);
         installStylePlayingFieldInProcessGame_(level_game);
+        //
+        connect(ui->button_playing_field, SIGNAL(idClicked(int)), this,
+                SLOT(on_buttons_playing_filed_clicked(int)));
     }
-    ~ViewPlayingField() { delete ui; }
+
+    ~ViewPlayingField() {
+        qDebug() << "destructor";
+        delete ui;
+        delete m_dialog;
+    }
 
 protected:
     auto paintEvent(QPaintEvent *event) -> void {
@@ -35,7 +52,26 @@ protected:
     }
 
     auto closeEvent(QCloseEvent *event) -> void {
-        event->accept();
+        if (m_close_game) {
+            event->accept();
+        } else {
+            QString messege = "Закрытие игры приведет к потере прогресса."
+                              "\nВы действительно хотите выйти?";
+            QString text_button1 = "Да";
+            QString text_button2 = "Нет";
+            m_dialog = new MessageWindow(messege, text_button1, text_button2);
+            m_dialog->show();
+            connect(m_dialog, &MessageWindow::button1, this, [this] {
+                m_close_game = true;
+                close();
+            });
+            connect(m_dialog, &MessageWindow::close_dialog, this, [this] {
+                qDebug() << "close";
+                delete m_dialog;
+                m_dialog = nullptr;
+            });
+            event->ignore();
+        }
     }
 
     auto installStylePlayingFieldInProcessGame_(uint8_t level_game) -> void {
@@ -114,8 +150,8 @@ protected:
             stepDown_();
         } else if (key == Qt::Key_A || key == Qt::Key_Left) {
             stepLeft_();
-        } else if (key == Qt::Key_Space) {
-            showPossibleSteps();
+        } else if (key == Qt::Key_Space || key == Qt::Key_Enter || key == Qt::Key_Return) {
+            setFocusCell();
         }
     }
 
@@ -128,6 +164,10 @@ protected:
                 swapIconsButtons_(id_button_cur, m_controller.GetCurrentCoord_model());
                 installPressedFocusStyleButton(m_controller.GetCurrentCoord_model());
                 installUnFocusStyleButton(id_button_cur);
+                // проверка на победу в игре
+                if (m_controller.IsVictoryGame_model()) {
+//                    m_victory_dialog = new VictoryDialog;
+                }
             }
         } else if (m_controller.StepUp_model()) {
             installFocusStyleButton(m_controller.GetCurrentCoord_model());
@@ -143,6 +183,11 @@ protected:
                 swapIconsButtons_(id_button_cur, m_controller.GetCurrentCoord_model());
                 installPressedFocusStyleButton(m_controller.GetCurrentCoord_model());
                 installUnFocusStyleButton(id_button_cur);
+                // проверка на победу в игре
+                if (m_controller.IsVictoryGame_model()) {
+//                    m_victory_dialog = new VictoryDialog;
+//                    m_victory_dialog->show();
+                }
             }
         } else if (m_controller.StepRight_model()) {
             installFocusStyleButton(m_controller.GetCurrentCoord_model());
@@ -158,6 +203,11 @@ protected:
                 swapIconsButtons_(id_button_cur, m_controller.GetCurrentCoord_model());
                 installPressedFocusStyleButton(m_controller.GetCurrentCoord_model());
                 installUnFocusStyleButton(id_button_cur);
+                // проверка на победу в игре
+                if (m_controller.IsVictoryGame_model()) {
+//                    m_victory_dialog = new VictoryDialog;
+//                    m_victory_dialog->show();
+                }
             }
         } else if (m_controller.StepDown_model()) {
             installFocusStyleButton(m_controller.GetCurrentCoord_model());
@@ -173,6 +223,11 @@ protected:
                 swapIconsButtons_(id_button_cur, m_controller.GetCurrentCoord_model());
                 installPressedFocusStyleButton(m_controller.GetCurrentCoord_model());
                 installUnFocusStyleButton(id_button_cur);
+                // проверка на победу в игре
+                if (m_controller.IsVictoryGame_model()) {
+//                    m_victory_dialog = new VictoryDialog;
+//                    m_victory_dialog->show();
+                }
             }
         } else if (m_controller.StepLeft_model()) {
             installFocusStyleButton(m_controller.GetCurrentCoord_model());
@@ -180,7 +235,7 @@ protected:
         }
     }
 
-    auto showPossibleSteps() -> void {
+    auto setFocusCell() -> void {
         int id_button_cur = m_controller.GetCurrentCoord_model();
 
         // если клетка является игровой фишкой
@@ -194,6 +249,7 @@ protected:
             }
         }
     }
+
 
     auto swapIconsButtons_(int id_b1, int id_b2) -> void {
         auto button1 = ui->button_playing_field->button(id_b1);
@@ -219,84 +275,66 @@ protected:
     }
 
 
-
-    auto showPossibleSteps_() -> void {
-      std::vector<int> id_buttons = m_controller.GetVectorPossibleSteps_model();
-      for (int id : id_buttons) {
-        ui->button_playing_field->button(id)
-                ->setStyleSheet(StyleHelper::getPossibleStepsButtonStyle());
-      }
+ private slots:
+    auto on_buttons_playing_filed_clicked(int id_button) -> void {
+        m_current_id_button = id_button;
+        ++m_click_counter;
+        if (m_click_counter == 1) {
+            QTimer::singleShot(200, this, SLOT(CheckClickCounter_()));
+        }
     }
 
-    auto hidePossibleSteps_() -> void {
-      std::vector<int> id_buttons = m_controller.GetVectorPossibleSteps_model();
-      for (int &id : id_buttons) {
-          ui->button_playing_field->button(id)
-                  ->setStyleSheet(StyleHelper::getButtonUnFocusStyle());
-      }
+    auto CheckClickCounter_() -> void {
+        if (m_click_counter == 1) {
+            one_click_on_button();
+        } else if (m_click_counter == 2) {
+            two_click_on_button();
+        }
+        m_click_counter = 0;
     }
 
+ protected:
+    auto one_click_on_button() -> void {
+        int id_button_prev = m_controller.GetCurrentCoord_model();
+        if (m_cell_in_focus && m_controller.IsCellPossibleStep_model(m_current_id_button)) {
+            m_controller.SwapChip_model(m_current_id_button);
+            //
+            swapIconsButtons_(id_button_prev, m_current_id_button);
+            installUnFocusStyleButton(id_button_prev);
+            installPressedFocusStyleButton(m_current_id_button);
+        } else if (!m_cell_in_focus && !m_controller.IsSelectedBlockCell_model(m_current_id_button)) {
+          //
+          installUnFocusStyleButton(id_button_prev);
+          installFocusStyleButton(m_current_id_button);
+          m_controller.ChangeCurrentCoord_model(m_current_id_button);
+        }
+    }
 
-//    void ViewGame::on_button_in_playing_field_clicked(int id_button) {
-//      if (m_is_game_start == true) {
-//        // если ячейка является возможным шагом
-//        if (m_controller.IsCellPossibleStep(id_button) == true) {
-//          //  сохраняем координаты предидущего клика
-//          int id_button_prev = m_controller.GetCurrentCoord();
-
-//          // меняю стиль подсвеченных клеток возможных шагов на обычный
-//          changeStyleInactiveButtons_();
-
-//          //  меняем местами клетки в модели
-//          m_controller.SwapCells(id_button);
-
-//          // меняем иконки местами
-//          m_group.button(id_button)
-//              ->setStyleSheet(StyleHelper::getReleasedButtonStyle());
-//          m_group.button(id_button_prev)
-//              ->setStyleSheet(StyleHelper::getInactiveButtonStyle());
-
-//          m_group.button(id_button)->setIcon(
-//              m_group.button(id_button_prev)->icon());
-//          m_group.button(id_button_prev)->setIcon(QIcon());
-
-//          // проверяем наступила ли победа в игре
-//          if (m_controller.IsVictoryGame()) {
-//            // вызываем диалоговое окно с ифнормацией о завершении игры
-//            m_victory_dialog->exec();
-//          }
-//        } else {
-//          // меняем текущую выбранную ячейку и пересчитываем возможные шаги
-//          if (m_controller.IsSelectedChipCell(id_button)) {
-//            int id_button_prev = m_controller.GetCurrentCoord();
-
-//            // если ячейка былы выбрана, то меняем ей стили на стандартный
-//            if (id_button_prev != -1) {
-//              m_group.button(id_button_prev)
-//                  ->setStyleSheet(StyleHelper::getReleasedButtonStyle());
-//            }
-
-//            // меняю стиль подсвеченных клеток возможных шагов на обычный
-//            changeStyleInactiveButtons_();
-
-//            // меняем стиль новой выбранной кнопки
-//            m_group.button(id_button)->setStyleSheet(
-//                StyleHelper::getPressedButtonChooseStyle());
-
-//            // рассчитываем новые возможные шаги
-//            m_controller.ChangePossibleStepsChipInPlayingField_(id_button);
-//            // меняем их стиль отобрадения на поле
-//            changeStylePossibleStepsButtons_();
-//          }
-//        }
-//      }
-//    }
+    auto two_click_on_button() -> void {
+        int id_button_prev = m_controller.GetCurrentCoord_model();
+        if (m_cell_in_focus && m_current_id_button == id_button_prev) {
+            //
+            installFocusStyleButton(m_current_id_button);
+            m_controller.ClearPossibleSteps_model();
+            m_cell_in_focus = false;
+        } else if (m_controller.IsSelectedChipCell_model(m_current_id_button)){
+            //
+            installUnFocusStyleButton(id_button_prev);
+            installPressedFocusStyleButton(m_current_id_button);
+            m_controller.ChangePossibleStepsChipInPlayingField_model(m_current_id_button);
+            m_cell_in_focus = true;
+        }
+    }
 
 
 private:
+ int m_click_counter;
+ int m_current_id_button;
+ bool m_cell_in_focus;
  Ui_PlayingField *ui;
+ MessageWindow *m_dialog;
  ControllerGame &m_controller{ControllerGame::getInstance()};
- bool m_cell_in_focus{false};
+ bool m_close_game;
 };
 
 }

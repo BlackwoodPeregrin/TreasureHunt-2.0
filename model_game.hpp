@@ -216,7 +216,7 @@ class GameMechanics {
       int row = m_current_coord.first;
       int column = m_current_coord.second;
       if (row > 0 && IsSelectedFreeCell(row - 1, column)) {
-          MoveChip_(row - 1, column);
+          SwapChip(row - 1, column);
           return true;
       }
       return false;
@@ -227,7 +227,7 @@ class GameMechanics {
       int column = m_current_coord.second;
       if (column < m_field->getSizeField() - 1
               && IsSelectedFreeCell(row, column + 1)) {
-          MoveChip_(row, column + 1);
+          SwapChip(row, column + 1);
           return true;
       }
       return false;
@@ -238,7 +238,7 @@ class GameMechanics {
       int column = m_current_coord.second;
       if (row < m_field->getSizeField() - 1
               && IsSelectedFreeCell(row + 1, column)) {
-          MoveChip_(row + 1, column);
+          SwapChip(row + 1, column);
           return true;
       }
       return false;
@@ -248,10 +248,20 @@ class GameMechanics {
       int row = m_current_coord.first;
       int column = m_current_coord.second;
       if (column > 0 && IsSelectedFreeCell(row, column - 1)) {
-          MoveChip_(row, column - 1);
+          SwapChip(row, column - 1);
           return true;
       }
       return false;
+  }
+
+  // поменять местами ячейки игрвого поля
+  auto SwapChip(int row, int column) -> void {
+      std::swap(
+          m_field->operator[](m_current_coord.first)[m_current_coord.second],
+          m_field->operator[](row)[column]);
+
+      // обновляем возможные перемещения новой координаты
+      ChangePossibleStepsChipInPlayingField(row , column);
   }
 
   // сохранить в вектор возможные перемещения фишки на игровом поле
@@ -281,9 +291,19 @@ class GameMechanics {
     }
   }
 
-  auto GetVectorPossibleSteps() const -> std::vector<std::pair<int, int>> {
-    return m_possible_steps;
+  auto ClearPossibleSteps() -> void {
+   m_possible_steps.clear();
   }
+
+  auto ChangeCurrentCoord(int row, int column) -> bool {
+      int size = m_field->getSizeField();
+      if (row >= 0 && row < size && column >= 0 && column < size) {
+          m_current_coord = {row, column};
+          return true;
+      }
+      return false;
+  }
+
 
   // получить координаты выбранной игровой фишки на поле
   auto GetCurrentCoord() const -> std::pair<int, int> {
@@ -417,17 +437,6 @@ class GameMechanics {
       possible_colors.erase(iter);
     }
     return color;
-  }
-
-  // поменять местами ячейки игрвого поля
-  auto MoveChip_(int row, int column) -> void {
-      std::swap(
-          m_field->operator[](m_current_coord.first)[m_current_coord.second],
-          m_field->operator[](row)[column]);
-
-      // очищаем предидущие возможные перемещения
-      m_possible_steps.clear();
-      m_current_coord = {row, column};
   }
 
  private:

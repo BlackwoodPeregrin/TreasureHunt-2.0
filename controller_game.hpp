@@ -88,6 +88,10 @@ class ControllerGame {
     m_model.ChangePossibleStepsChipInPlayingField(row, column);
   }
 
+  auto ClearPossibleSteps_model() -> void {
+   m_model.ClearPossibleSteps();
+  }
+
   auto IsCellPossibleStep_model(int id_button) const -> bool {
     // конвертирую кнопку с интерфейса в координаты игрового поля
     int size_filed = m_model.GetSizeField();
@@ -106,16 +110,12 @@ class ControllerGame {
       return -1; // игровое поле не инициализированно
   }
 
-
-  auto GetVectorPossibleSteps_model() const -> std::vector<int> {
-    std::vector<std::pair<int, int>> coords(std::move(m_model.GetVectorPossibleSteps()));
-    int size_field = m_model.GetSizeField();
-    // конвертирую координаты бэка в id кнопки на интерфейсе
-    std::vector<int> id_buttons;
-    for (auto &[row, column] : coords) {
-      id_buttons.push_back(row * size_field + column);
-    }
-    return id_buttons;
+  auto ChangeCurrentCoord_model(int id_button) -> bool {
+      // конвертирую кнопку с интерфейса в координаты игрового поля
+      int size_filed = m_model.GetSizeField();
+      int row = id_button / size_filed;
+      int column = id_button % size_filed;
+      return m_model.ChangeCurrentCoord(row, column);
   }
 
   auto IsVictoryGame_model() const -> bool {
@@ -190,6 +190,20 @@ class ControllerGame {
   auto MoveChipLeft_model() -> bool {
       if (m_model.IsGenerateField()) {
         return m_model.MoveChipLeft();
+      }
+      return false;
+  }
+
+  auto SwapChip_model(int id_button) -> bool {
+      // конвертирую кнопку с интерфейса в координаты игрового поля
+      int size_filed = m_model.GetSizeField();
+      int row = id_button / size_filed;
+      int column = id_button % size_filed;
+
+      if (row >= 0 && row < m_model.GetSizeField()
+              && column >= 0 && column < m_model.GetSizeField()) {
+          m_model.SwapChip(row, column);
+          return true;
       }
       return false;
   }

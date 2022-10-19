@@ -85,11 +85,7 @@ public:
                                        kIconSizeLevel[level_game - 1].height() + 5);
                 button->setMaximumSize(button->minimumSize());
                 button->setIconSize(kIconSizeLevel[level_game - 1]);
-                if (id_button == 0) {
-                    button->setStyleSheet(StyleHelper::getButtonFocusStyle());
-                } else {
-                    button->setStyleSheet(StyleHelper::getButtonUnFocusStyle());
-                }
+                button->setStyleSheet(StyleHelper::getButtonUnFocusStyle());
                 button->setCursor(QCursor(Qt::OpenHandCursor));
                 //
                 button_playing_field->addButton(button, id_button);
@@ -98,6 +94,7 @@ public:
                 grid_layout->addWidget(button, row, column, 1, 1);
             }
         }
+        button_playing_field->button(0)->setStyleSheet(StyleHelper::getButtonFocusStyle());
         //
         vertical_layout = new QVBoxLayout(Widget);
         vertical_layout->setSpacing(0);

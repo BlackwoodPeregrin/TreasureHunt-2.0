@@ -10,21 +10,28 @@ CONFIG += c++17
 
 SOURCES += \
     main.cpp \
-    view_game.cpp
+    view/menu_game.cpp
+
 
 HEADERS += \
-    constans.h \
-    controller_game.hpp \
-    message_dialog.h \
-    model_game.hpp \
-    style_helper.h \
-    ui_playing_field.h \
-    view_game.h \
-    view_playing_field.h
+    controller/controller_game.hpp \
+    model/abstract_cell.hpp \
+    model/block_cell.hpp \
+    model/chip_cell.hpp \
+    model/constans.hpp \
+    model/free_cell.hpp \
+    model/game_mechanics.hpp \
+    model/playing_field.hpp \
+    view/menu_game.h \
+    view/message_dialog.h \
+    view/playing_field_game.h \
+    view/style_helper.h \
+    view/ui/ui_playing_field_game.h
 
 FORMS += \
-    message_dialog.ui \
-    view_game.ui
+    view/ui/menu_game_ui \
+    view/ui/message_dialog.ui
+
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -35,6 +42,6 @@ RESOURCES += \
     image.qrc
 
 DISTFILES += \
-    application_icon.png
+    logo_game.png.png
 
-ICON += application_icon.png
+ICON += logo_game.png

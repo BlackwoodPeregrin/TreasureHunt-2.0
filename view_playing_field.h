@@ -9,9 +9,11 @@
 #include <thread>
 #include <QTimer>
 
+
+#include <functional>
 #include "ui_playing_field.h"
 #include "controller_game.hpp"
-#include "victory_dialog.h"
+#include "message_dialog.h"
 
 QT_BEGIN_NAMESPACE
 namespace InSearchOfTreasure_2_0 {
@@ -27,7 +29,8 @@ public:
           m_cell_in_focus{false},
           ui{new Ui_PlayingField},
           m_dialog{nullptr},
-          m_close_game{false}{
+          m_close_game{false},
+          m_level_game(level_game) {
         //
         ui->setupUi(this, level_game);
         installStylePlayingFieldInProcessGame_(level_game);
@@ -36,11 +39,7 @@ public:
                 SLOT(on_buttons_playing_filed_clicked(int)));
     }
 
-    ~ViewPlayingField() {
-        qDebug() << "destructor";
-        delete ui;
-        delete m_dialog;
-    }
+    ~ViewPlayingField() {delete ui; }
 
 protected:
     auto paintEvent(QPaintEvent *event) -> void {
@@ -52,25 +51,20 @@ protected:
     }
 
     auto closeEvent(QCloseEvent *event) -> void {
+        event->ignore();
         if (m_close_game) {
             event->accept();
         } else {
-            QString messege = "Закрытие игры приведет к потере прогресса."
-                              "\nВы действительно хотите выйти?";
-            QString text_button1 = "Да";
-            QString text_button2 = "Нет";
-            m_dialog = new MessageWindow(messege, text_button1, text_button2);
-            m_dialog->show();
-            connect(m_dialog, &MessageWindow::button1, this, [this] {
-                m_close_game = true;
-                close();
-            });
-            connect(m_dialog, &MessageWindow::close_dialog, this, [this] {
-                qDebug() << "close";
-                delete m_dialog;
-                m_dialog = nullptr;
-            });
-            event->ignore();
+            GenerateDialogWidnow(StyleHelper::getMessageExitGame(),
+                                 "Exit",
+                                 QIcon(StyleHelper::getPathToYesIcon()),
+                                 QSize(45, 45),
+                                 QIcon(StyleHelper::getPathToNoIcon()),
+                                 QSize(35, 35),
+                                 [this] {
+                                    m_close_game = true;
+                                    this->close();
+                                 });
         }
     }
 
@@ -90,14 +84,19 @@ protected:
           } else {
               button->setIcon(GetIconFromColor_(color_cell));
           }
+          button->setStyleSheet(StyleHelper::getButtonUnFocusStyle());
       }
+
+      // в начале игры квыбранная ячейка верхняя слева по умолчанию
+      ui->button_playing_field->button(0)->setStyleSheet(StyleHelper::getButtonFocusStyle());
 
       // расстановка иконок над игрового поля (ожидаемый результат)
       std::vector<int> colors = std::move(m_controller.GetColorExpectedRow_model());
       sum_buttons = ui->button_under_field->buttons().size();
       for (int id_button = 0; id_button < sum_buttons; ++id_button) {
-          ui->button_under_field->button(id_button)->setIcon(
-                      GetIconFromColor_(colors[id_button]));
+          QAbstractButton *button = ui->button_under_field->button(id_button);
+          button->setIcon(GetIconFromColor_(colors[id_button]));
+          button->setStyleSheet(StyleHelper::getButtonStyleUnderGameField());
       }
     }
 
@@ -164,9 +163,23 @@ protected:
                 swapIconsButtons_(id_button_cur, m_controller.GetCurrentCoord_model());
                 installPressedFocusStyleButton(m_controller.GetCurrentCoord_model());
                 installUnFocusStyleButton(id_button_cur);
+
                 // проверка на победу в игре
                 if (m_controller.IsVictoryGame_model()) {
-//                    m_victory_dialog = new VictoryDialog;
+                    m_cell_in_focus = false;
+                    GenerateDialogWidnow(StyleHelper::getMessageVictory(),
+                                         "Victory",
+                                         QIcon(StyleHelper::getPathToUndoIcon()),
+                                         QSize(40, 40),
+                                         QIcon(StyleHelper::getPathRepeatButtonIcon()),
+                                         QSize(40, 40),
+                                         [this] {
+                                            m_close_game = true;
+                                            this->close();
+                                         },
+                                         [this] {
+                                            this->installStylePlayingFieldInProcessGame_(m_level_game);
+                                        });
                 }
             }
         } else if (m_controller.StepUp_model()) {
@@ -183,10 +196,23 @@ protected:
                 swapIconsButtons_(id_button_cur, m_controller.GetCurrentCoord_model());
                 installPressedFocusStyleButton(m_controller.GetCurrentCoord_model());
                 installUnFocusStyleButton(id_button_cur);
+
                 // проверка на победу в игре
                 if (m_controller.IsVictoryGame_model()) {
-//                    m_victory_dialog = new VictoryDialog;
-//                    m_victory_dialog->show();
+                    m_cell_in_focus = false;
+                    GenerateDialogWidnow(StyleHelper::getMessageVictory(),
+                                         "Victory",
+                                         QIcon(StyleHelper::getPathToUndoIcon()),
+                                         QSize(40, 40),
+                                         QIcon(StyleHelper::getPathRepeatButtonIcon()),
+                                         QSize(40, 40),
+                                         [this] {
+                                            m_close_game = true;
+                                            this->close();
+                                         },
+                                         [this] {
+                                            this->installStylePlayingFieldInProcessGame_(m_level_game);
+                                        });
                 }
             }
         } else if (m_controller.StepRight_model()) {
@@ -203,10 +229,23 @@ protected:
                 swapIconsButtons_(id_button_cur, m_controller.GetCurrentCoord_model());
                 installPressedFocusStyleButton(m_controller.GetCurrentCoord_model());
                 installUnFocusStyleButton(id_button_cur);
+
                 // проверка на победу в игре
                 if (m_controller.IsVictoryGame_model()) {
-//                    m_victory_dialog = new VictoryDialog;
-//                    m_victory_dialog->show();
+                    m_cell_in_focus = false;
+                    GenerateDialogWidnow(StyleHelper::getMessageVictory(),
+                                         "Victory",
+                                         QIcon(StyleHelper::getPathToUndoIcon()),
+                                         QSize(40, 40),
+                                         QIcon(StyleHelper::getPathRepeatButtonIcon()),
+                                         QSize(40, 40),
+                                         [this] {
+                                            m_close_game = true;
+                                            this->close();
+                                         },
+                                         [this] {
+                                            this->installStylePlayingFieldInProcessGame_(m_level_game);
+                                        });
                 }
             }
         } else if (m_controller.StepDown_model()) {
@@ -223,10 +262,23 @@ protected:
                 swapIconsButtons_(id_button_cur, m_controller.GetCurrentCoord_model());
                 installPressedFocusStyleButton(m_controller.GetCurrentCoord_model());
                 installUnFocusStyleButton(id_button_cur);
+
                 // проверка на победу в игре
                 if (m_controller.IsVictoryGame_model()) {
-//                    m_victory_dialog = new VictoryDialog;
-//                    m_victory_dialog->show();
+                    m_cell_in_focus = false;
+                    GenerateDialogWidnow(StyleHelper::getMessageVictory(),
+                                         "Victory",
+                                         QIcon(StyleHelper::getPathToUndoIcon()),
+                                         QSize(40, 40),
+                                         QIcon(StyleHelper::getPathRepeatButtonIcon()),
+                                         QSize(40, 40),
+                                         [this] {
+                                            m_close_game = true;
+                                            this->close();
+                                         },
+                                         [this] {
+                                            this->installStylePlayingFieldInProcessGame_(m_level_game);
+                                        });
                 }
             }
         } else if (m_controller.StepLeft_model()) {
@@ -274,6 +326,31 @@ protected:
                     StyleHelper::getButtonUnFocusStyle());
     }
 
+
+    auto GenerateDialogWidnow(QString const &message,
+                              QString const &title,
+                              QIcon const &button_accept,
+                              QSize const &button_accept_icon,
+                              QIcon const &button_reject,
+                              QSize const &button_reject_icon,
+                              std::function<void()> slot_accept,
+                              std::function<void()> slot_reject = []{}) -> void {
+        //
+        if (m_dialog) {
+            delete m_dialog;
+        }
+        m_dialog = new MessageWindow(message, title,
+                          button_accept,
+                          button_accept_icon,
+                          button_reject,
+                          button_reject_icon, this);
+
+
+        connect(m_dialog, &MessageWindow::accepted, this, slot_accept);
+        connect(m_dialog, &MessageWindow::rejected, this, slot_reject);
+
+        m_dialog->exec();
+    }
 
  private slots:
     auto on_buttons_playing_filed_clicked(int id_button) -> void {
@@ -335,6 +412,7 @@ private:
  MessageWindow *m_dialog;
  ControllerGame &m_controller{ControllerGame::getInstance()};
  bool m_close_game;
+ int m_level_game;
 };
 
 }

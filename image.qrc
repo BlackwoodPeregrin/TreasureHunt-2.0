@@ -18,5 +18,8 @@
         <file>img/chips/sky_stone.png</file>
         <file>img/chips/yellow_stone.png</file>
         <file>img/chips/white_stone.png</file>
+        <file>img/close.png</file>
+        <file>img/yes.png</file>
+        <file>img/repeat.png</file>
     </qresource>
 </RCC>

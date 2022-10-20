@@ -35,6 +35,10 @@ class ControllerGame {
     m_model.ClearField();
   }
 
+  auto GetSizeField_model() const -> int {
+      return m_model.GetSizeField();
+  }
+
   auto IsSelectedBlockCell_model(int id_button) const -> bool {
       if (m_model.IsGenerateField()) {
           // конвертирую кнопку с интерфейса в координаты игрового поля

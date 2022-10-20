@@ -27,12 +27,6 @@ class StyleHelper {
            "};";
   }
 
-  static auto getDialogWindowStyle() -> QString {
-    return "QDialog {"
-           "   background-image: url(:/img/background_playing_field.jpg);"
-           "};";
-  }
-
   static auto getStyleLabelAboutGame() -> QString {
     return "QLabel {"
            "   font-size: 18px;"
@@ -43,6 +37,19 @@ class StyleHelper {
            "   border-style: solid;"
            "   border-width: 2px;"
            "   border-radius: 15px;"
+           "};";
+  }
+
+  static auto getStyleLabelCloseGame() -> QString {
+    return "QLabel {"
+           "   font-size: 15px;"
+           "   color: rgb(0, 0, 0);"
+           "   background: none;"
+           "   background-color: gray;"
+           "   border: none;"
+           "   border-style: solid;"
+           "   border-width: 2px;"
+           "   border-radius: 13px;"
            "};";
   }
 
@@ -123,13 +130,19 @@ class StyleHelper {
   }
 
   // иконка кнопки 'start game'
-  static auto getStartGameButtonIcon() -> QString { return ":/img/play.png"; }
+  static auto getPathStartGameButtonIcon() -> QString { return ":/img/play.png"; }
   // иконка кнопки 'stop game'
-  static auto getStopGameButtonIcon() -> QString { return ":/img/pause.png"; }
+  static auto getPathStopGameButtonIcon() -> QString { return ":/img/pause.png"; }
+  // иконка кнопки 'repeat'
+  static auto getPathRepeatButtonIcon() -> QString { return ":/img/repeat.png"; }
   // иконка кнопки 'about game'
-  static auto getAboutGameButtonIcon() -> QString { return ":/img/info.png"; }
+  static auto getPathAboutGameButtonIcon() -> QString { return ":/img/info.png"; }
   // иконка кнопки 'back to menu'
   static auto getPathToUndoIcon() -> QString { return ":/img/undo.png"; }
+  // иконка кнопки 'yes'
+  static auto getPathToYesIcon() -> QString { return ":/img/yes.png"; }
+  // иконка кнопки 'no'
+  static auto getPathToNoIcon() -> QString { return ":/img/close.png"; }
 
   // путь к иконкам игровых фишек
   static auto getPathToRedStoneIcon() -> QString { return ":/img/chips/red_stone.png"; }
@@ -145,6 +158,14 @@ class StyleHelper {
 
   // путь к иконке неактивных клеткам
   static auto getPathToBoxIcon() -> QString { return ":/img/box.png"; }
+
+  static auto getMessageVictory() -> QString {
+      return "Великолепная игра! Хотите выйти в\nглавное меню или\nпройти уровень заново?";
+  }
+  static auto getMessageExitGame() -> QString {
+      return "Закрытие игры приведет к потере\nпрогресса."
+             " Вы действительно\nхотите выйти?";
+  }
 };
 
 }  // namespace InSearchOfTreasure

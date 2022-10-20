@@ -15,15 +15,15 @@ SOURCES += \
 HEADERS += \
     constans.h \
     controller_game.hpp \
+    message_dialog.h \
     model_game.hpp \
     style_helper.h \
     ui_playing_field.h \
-    victory_dialog.h \
     view_game.h \
     view_playing_field.h
 
 FORMS += \
-    victory_dialog.ui \
+    message_dialog.ui \
     view_game.ui
 
 # Default rules for deployment.

@@ -2,6 +2,7 @@
 #define CONSTANS_H
 
 #include <stdint.h>
+#include <stdexcept>
 
 namespace InSearchOfTreasure_2_0 {
 
@@ -40,10 +41,19 @@ enum LevelGame {
 constexpr u_int8_t kLevelsGame = 9;
 
 static int GetSizeFiledFromLevelGame(int level_game) {
-    if (level_game > kLevelsGame) {
+    if (level_game > kLevelsGame && level_game < 0) {
         throw std::invalid_argument("Incorrect level");
     }
-    return 2 * level_game + 1;
+    int size_field = 2 * level_game + 1;
+    return size_field;
+}
+
+static int GetLevelGameFromSizeField(int size_field) {
+    int level_game = (size_field - 1) / 2;
+    if (level_game > kLevelsGame && level_game < 0) {
+        throw std::invalid_argument("Size Field");
+    }
+    return level_game;
 }
 
 //  размерность игрового поля с 1 до 9 уровней игры (поле квадратное)

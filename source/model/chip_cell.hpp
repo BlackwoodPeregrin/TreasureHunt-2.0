@@ -4,7 +4,7 @@
 #include "abstract_cell.hpp"
 #include "constans.hpp"
 
-namespace InSearchOfTreasure_2_0 {
+namespace TreasureHunt_2_0 {
 
 /*=== Класс Фишек Игрового Поля ===*/
 class ChipCell : public AbstractCell {
@@ -25,6 +25,6 @@ class ChipCell : public AbstractCell {
  private:
   int m_color_chip;
 };
-}  // namespace InSearchOfTreasure_2_0
+}  // namespace TreasureHunt_2_0
 
 #endif  // CHIP_CELL_HPP

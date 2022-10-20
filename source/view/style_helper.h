@@ -3,7 +3,7 @@
 
 #include <QString>
 
-namespace InSearchOfTreasure_2_0 {
+namespace TreasureHunt_2_0 {
 
 class StyleHelper {
  public:
@@ -197,6 +197,6 @@ class StyleHelper {
   }
 };
 
-}  // namespace InSearchOfTreasure_2_0
+}  // namespace TreasureHunt_2_0
 
 #endif  // STYLE_HELPER_H

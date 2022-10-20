@@ -15,7 +15,7 @@
 
 QT_BEGIN_NAMESPACE
 
-namespace InSearchOfTreasure_2_0 {
+namespace TreasureHunt_2_0 {
 
 // размер иконок игрового поля с 1 до 9 уровней
 constexpr QSize kIconSizeLevel[kLevelsGame]{
@@ -119,7 +119,7 @@ class Ui_PlayingField {
   QButtonGroup *button_playing_field;
   QVBoxLayout *vertical_layout;
 };
-}  // namespace InSearchOfTreasure_2_0
+}  // namespace TreasureHunt_2_0
 QT_END_NAMESPACE
 
 #endif  // UI_PLAYING_FIELD_H

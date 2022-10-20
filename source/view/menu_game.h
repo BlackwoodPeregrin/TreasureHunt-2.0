@@ -19,7 +19,7 @@
 //QT_END_NAMESPACE
 
 //QT_BEGIN_NAMESPACE
-//namespace InSearchOfTreasure {
+//namespace TreasureHunt_2_0 {
 
 //enum CoordsPlayingField {
 //  k00,  // 0
@@ -120,6 +120,6 @@
 //  std::condition_variable m_cv;
 //  std::mutex m_mutex;
 //};
-//}  // namespace InSearchOfTreasure
+//}  // namespace TreasureHunt_2_0
 //QT_END_NAMESPACE
 //#endif  // VIEW_GAME_H

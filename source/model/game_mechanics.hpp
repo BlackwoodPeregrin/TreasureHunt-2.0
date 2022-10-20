@@ -9,7 +9,7 @@
 #include "free_cell.hpp"
 #include "playing_field.hpp"
 
-namespace InSearchOfTreasure_2_0 {
+namespace TreasureHunt_2_0 {
 
 /*=== Класс Механики Игры ===*/
 class GameMechanics {
@@ -342,6 +342,6 @@ class GameMechanics {
   std::map<int, int> m_expected_row;
 };
 
-}  // namespace InSearchOfTreasure_2_0
+}  // namespace TreasureHunt_2_0
 
 #endif  // GAME_MECHANICS_HPP

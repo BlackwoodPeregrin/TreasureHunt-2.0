@@ -4,7 +4,7 @@
 
 int main(int argc, char *argv[]) {
   QApplication a(argc, argv);
-  InSearchOfTreasure_2_0::ViewPlayingField w(2);
+  TreasureHunt_2_0::ViewPlayingField w(2);
   w.show();
   return a.exec();
 }

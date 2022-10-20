@@ -4,7 +4,7 @@
 #include <stdint.h>
 #include <stdexcept>
 
-namespace InSearchOfTreasure_2_0 {
+namespace TreasureHunt_2_0 {
 
 enum TypeCell { kChip, kBlock, kFree };  // тип клетки
 
@@ -86,6 +86,6 @@ constexpr u_int8_t kNumberOfFreeCellsInTheLevel[kLevelsGame] {
     1, 4, 9, 16, 25, 36, 49, 64, 81
 };
 
-}
+}  // namespace TreasureHunt_2_0
 
 #endif // CONSTANS_H

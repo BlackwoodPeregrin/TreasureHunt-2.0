@@ -3,7 +3,7 @@
 
 #include "../model/game_mechanics.hpp"
 
-namespace InSearchOfTreasure_2_0 {
+namespace TreasureHunt_2_0 {
 
 // контроллер реализован в паттерне Singletone
 class ControllerGame {
@@ -210,6 +210,6 @@ class ControllerGame {
   GameMechanics m_model;
 };
 
-}  // namespace InSearchOfTreasure_2_0
+}  // namespace TreasureHunt_2_0
 
 #endif  // CONTROLLER_GAME_HPP

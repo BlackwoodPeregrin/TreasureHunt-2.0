@@ -4,7 +4,7 @@
 #include "abstract_cell.hpp"
 #include "constans.hpp"
 
-namespace InSearchOfTreasure_2_0 {
+namespace TreasureHunt_2_0 {
 /*=== Класс Неактивных Клеток Игрового Поля ===*/
 class BlockCell : public AbstractCell {
  public:
@@ -13,6 +13,6 @@ class BlockCell : public AbstractCell {
   ~BlockCell() = default;
 };
 
-}  // namespace InSearchOfTreasure_2_0
+}  // namespace TreasureHunt_2_0
 
 #endif  // BLOCK_CELL_HPP

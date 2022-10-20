@@ -8,7 +8,7 @@
 #include "ui_message_dialog.h"
 
 QT_BEGIN_NAMESPACE
-namespace InSearchOfTreasure_2_0 {
+namespace TreasureHunt_2_0 {
 
 class MessageWindow : public QDialog {
   Q_OBJECT
@@ -43,5 +43,5 @@ class MessageWindow : public QDialog {
   Ui::Dialog *ui;
 };
 
-}  // namespace InSearchOfTreasure_2_0
+}  // namespace TreasureHunt_2_0
 #endif  // MESSAGE_DIALOG_H

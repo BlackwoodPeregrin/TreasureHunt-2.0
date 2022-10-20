@@ -15,7 +15,7 @@
 #include "ui/ui_playing_field_game.h"
 
 QT_BEGIN_NAMESPACE
-namespace InSearchOfTreasure_2_0 {
+namespace TreasureHunt_2_0 {
 
 class ViewPlayingField : public QWidget {
   Q_OBJECT
@@ -31,6 +31,7 @@ class ViewPlayingField : public QWidget {
         m_level_game(level_game) {
     //
     ui->setupUi(this, level_game);
+    this->setWindowTitle("Treasure Hunt");
     installStylePlayingFieldInProcessGame_(level_game);
     //
     connect(ui->button_playing_field, SIGNAL(idClicked(int)), this,
@@ -413,7 +414,7 @@ class ViewPlayingField : public QWidget {
   int m_level_game;
 };
 
-}  // namespace InSearchOfTreasure_2_0
+}  // namespace TreasureHunt_2_0
 QT_END_NAMESPACE
 
 #endif  // VIEWPLAYINGFIELD_H

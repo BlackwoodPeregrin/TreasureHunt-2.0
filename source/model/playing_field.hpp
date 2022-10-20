@@ -8,7 +8,7 @@
 
 #include "abstract_cell.hpp"
 
-namespace InSearchOfTreasure_2_0 {
+namespace TreasureHunt_2_0 {
 
 /*=== Класс Игрового Поля ===*/
 class PlayingField {
@@ -57,6 +57,6 @@ class PlayingField {
   std::vector<std::vector<AbstractCell *>> m_cell;
 };
 
-}  // namespace InSearchOfTreasure_2_0
+}  // namespace TreasureHunt_2_0
 
 #endif  // PLAYING_FIELD_HPP

@@ -1,7 +1,7 @@
 #ifndef ABSTRACT_CELL_HPP
 #define ABSTRACT_CELL_HPP
 
-namespace InSearchOfTreasure_2_0 {
+namespace TreasureHunt_2_0 {
 /*=== Абстрактный класс клетки игрового поля ===*/
 class AbstractCell {
  public:
@@ -14,6 +14,6 @@ class AbstractCell {
  private:
   int m_type_cell;
 };
-}  // namespace InSearchOfTreasure_2_0
+}  // namespace TreasureHunt_2_0
 
 #endif  // ABSTRACT_CELL_HPP

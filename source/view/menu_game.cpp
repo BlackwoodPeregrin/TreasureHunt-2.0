@@ -8,7 +8,7 @@
 //#include "ui_view_game.h"
 
 //QT_BEGIN_NAMESPACE
-//namespace InSearchOfTreasure {
+//namespace TreasureHunt_2_0 {
 
 //constexpr QSize icon_size = {55, 55};
 
@@ -426,5 +426,5 @@
 //  }
 //}
 
-//}  // namespace InSearchOfTreasure
+//}  // namespace TreasureHunt_2_0
 //QT_END_NAMESPACE

@@ -19,7 +19,7 @@ namespace TreasureHunt_2_0 {
 
 // размер иконок игрового поля с 1 до 9 уровней
 constexpr QSize kIconSizeLevel[kLevelsGame]{
-    QSize(66, 66), QSize(62, 62), QSize(58, 58), QSize(54, 54), QSize(50, 50),
+    QSize(62, 62), QSize(58, 58), QSize(54, 54), QSize(50, 50),
     QSize(46, 46), QSize(42, 42), QSize(38, 38), QSize(34, 34),
 };
 

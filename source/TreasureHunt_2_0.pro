@@ -29,7 +29,7 @@ HEADERS += \
     view/ui/ui_playing_field_game.h
 
 FORMS += \
-    view/ui/menu_game_ui \
+    view/ui/menu_game.ui \
     view/ui/message_dialog.ui
 
 

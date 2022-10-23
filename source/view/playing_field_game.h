@@ -40,6 +40,9 @@ class ViewPlayingField : public QWidget {
 
   ~ViewPlayingField() { delete ui; }
 
+signals:
+    void close_playing_field();
+
  protected:
   auto paintEvent(QPaintEvent *event) -> void override {
     QStyleOption opt;
@@ -59,6 +62,7 @@ class ViewPlayingField : public QWidget {
                            QSize(45, 45), QIcon(StyleHelper::getPathToNoIcon()),
                            QSize(35, 35), [this] {
                              m_close_game = true;
+                             emit close_playing_field();
                              this->close();
                            });
     }
@@ -376,6 +380,7 @@ class ViewPlayingField : public QWidget {
           QIcon(StyleHelper::getPathRepeatButtonIcon()), QSize(40, 40),
           [this] {
             m_close_game = true;
+            emit close_playing_field();
             this->close();
           },
           [this] {

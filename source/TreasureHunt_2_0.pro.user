@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 7.0.0, 2022-10-20T16:08:17. -->
+<!-- Written by QtCreator 7.0.0, 2022-10-23T20:30:39. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -241,14 +241,14 @@
      <value type="QString">DYLD_FRAMEWORK_PATH</value>
      <value type="QString">DYLD_LIBRARY_PATH</value>
     </valuelist>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:/Users/bperegri/Desktop/-Treasure-Hunt-Version-2.0/source/In_Search_Of_Treasure_2_0.pro</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">/Users/bperegri/Desktop/-Treasure-Hunt-Version-2.0/source/In_Search_Of_Treasure_2_0.pro</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:/Users/bperegri/Desktop/game/source/TreasureHunt_2_0.pro</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">/Users/bperegri/Desktop/game/source/TreasureHunt_2_0.pro</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">/Users/bperegri/Desktop/-Treasure-Hunt-Version-2.0/build-In_Search_Of_Treasure_2_0-Qt_6_2_3_local-Debug/In_Search_Of_Treasure_2_0.app/Contents/MacOS</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">/Users/bperegri/Desktop/-Treasure-Hunt-Version-2.0/build-In_Search_Of_Treasure_2_0-Qt_6_2_3_local-Debug/TreasureHunt_2_0.app/Contents/MacOS</value>
    </valuemap>
    <value type="qlonglong" key="ProjectExplorer.Target.RunConfigurationCount">1</value>
   </valuemap>

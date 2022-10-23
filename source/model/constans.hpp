@@ -33,23 +33,22 @@ enum LevelGame {
     kFifth,
     kSixth,
     kSeventh,
-    kEighth,
-    kNinth
+    kEighth
 }; // уровни игры
 
 // кол-во различных уровней игры
-constexpr u_int8_t kLevelsGame = 9;
+constexpr u_int8_t kLevelsGame = 8;
 
 static int GetSizeFiledFromLevelGame(int level_game) {
     if (level_game > kLevelsGame && level_game < 0) {
         throw std::invalid_argument("Incorrect level");
     }
-    int size_field = 2 * level_game + 1;
+    int size_field = 2 * (level_game + 1) + 1;
     return size_field;
 }
 
 static int GetLevelGameFromSizeField(int size_field) {
-    int level_game = (size_field - 1) / 2;
+    int level_game = (size_field - 1) / 2 - 1;
     if (level_game > kLevelsGame && level_game < 0) {
         throw std::invalid_argument("Size Field");
     }
@@ -58,32 +57,32 @@ static int GetLevelGameFromSizeField(int size_field) {
 
 //  размерность игрового поля с 1 до 9 уровней игры (поле квадратное)
 constexpr u_int8_t kFieldSizeInTheLevel[kLevelsGame] {
-    3, 5, 7, 9, 11, 13, 15, 17, 19
+    5, 7, 9, 11, 13, 15, 17, 19
 };
 
 // общее кол-во клеток игрового поля с 1 до 9 уровней игры
 constexpr u_int16_t kTotalNumberOfCellsInTheLevel[kLevelsGame] {
-    9, 25, 49, 81, 121, 169, 225, 289, 361
+    25, 49, 81, 121, 169, 225, 289, 361
 };
 
 // кол-во игровых фишек различного цвета с 1 до 9 уровней игры
 constexpr u_int8_t kNumberOfDifferentChipsInTheLevel[kLevelsGame] {
-    2, 3, 4, 5, 6, 7, 8, 9, 10
+    3, 4, 5, 6, 7, 8, 9, 10
 };
 
 // суммарное кол-во фишек каждого цвета с 1 до 9 уровней
 constexpr u_int8_t kNumberOfTitlesEachColorInTheLevel[kLevelsGame] {
-    3, 5, 7, 9, 11, 13, 15, 17, 19
+    5, 7, 9, 11, 13, 15, 17, 19
 };
 
 // кол-во неактивных клеток с 1 до 9 уровней
 constexpr u_int8_t kNumberOfInactiveCellsInTheLevel[kLevelsGame] {
-    2, 6, 12, 20, 30, 42, 56, 72, 90
+    6, 12, 20, 30, 42, 56, 72, 90
 };
 
 // кол-во свободных клеток с 1 до 9 уровней
 constexpr u_int8_t kNumberOfFreeCellsInTheLevel[kLevelsGame] {
-    1, 4, 9, 16, 25, 36, 49, 64, 81
+    4, 9, 16, 25, 36, 49, 64, 81
 };
 
 }  // namespace TreasureHunt_2_0

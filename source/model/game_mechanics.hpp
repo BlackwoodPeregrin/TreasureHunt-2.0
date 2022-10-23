@@ -278,7 +278,7 @@ class GameMechanics {
 
     // определяем сколько различных цветных фишек должно быть на поле
     int num_colors{};
-    for (int i = LevelGame::kFirst; i <= LevelGame::kNinth; ++i) {
+    for (int i = LevelGame::kFirst; i <= LevelGame::kEighth; ++i) {
       if (kFieldSizeInTheLevel[i] == m_field->getSizeField()) {
         num_colors = kNumberOfDifferentChipsInTheLevel[i];
         break;

@@ -133,10 +133,7 @@ class StyleHelper {
   static auto getPathStartGameButtonIcon() -> QString {
     return ":/img/play.png";
   }
-  // иконка кнопки 'stop game'
-  static auto getPathStopGameButtonIcon() -> QString {
-    return ":/img/pause.png";
-  }
+
   // иконка кнопки 'repeat'
   static auto getPathRepeatButtonIcon() -> QString {
     return ":/img/repeat.png";

@@ -18,4 +18,6 @@ Successful completion of the game is considered if all the stones are lined up i
 
 ![Image](https://github.com/BlackwoodPeregrin/TreasureHunt-2.0/raw/develop/img/logic_game.png)
 
-After the victory, an icon will appear about the successful completion of the level.
+After the victory, an icon will appear about the successful completion of the level
+
+![Image](https://github.com/BlackwoodPeregrin/TreasureHunt-2.0/raw/develop/img/finish.png)

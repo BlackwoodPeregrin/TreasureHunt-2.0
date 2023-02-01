@@ -4,6 +4,7 @@ The main menu screen saver contains three buttons
 - level selection
 - start playing
 - description of the game mechanics
+
 ![Image](https://github.com/BlackwoodPeregrin/TreasureHunt-2.0/raw/develop/img/main_menu.png)
 Examples of lvl1 and lvl2 are presented below
 ![Image](https://github.com/BlackwoodPeregrin/TreasureHunt-2.0/raw/develop/img/1lvl.png)
